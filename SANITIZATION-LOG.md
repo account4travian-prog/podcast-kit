@@ -141,3 +141,6 @@ relative to the room file.
 
 ## Addendum 3 (2026-11-09, rename)
 - Owner's direction: the repository and display name changed from "moe-kit" to "podcast-kit" — MoE was the internal project name, and an unrelated AI-themed podcast already uses the show's name. Only display/title strings changed; the program's filenames (`moe.py`, the `moekit/` package) are unchanged.
+
+## Addendum 4 (2026-11-09, diagram)
+- Added `podcast-kit-flow.png` (a workflow diagram of the kit) at the owner's request and embedded it in the README. File count is now 41.

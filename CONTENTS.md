@@ -4,6 +4,7 @@ Everything needed to run the kit is in this folder. Start with README.md.
 
 ## Start here
 - `README.md` — what the kit is, how a run works, setup
+- `podcast-kit-flow.png` — the workflow diagram shown in the README
 - `SKILL.md` — the operator runbook: the exact loop to run a room
 - `LICENSE` — MIT
 - `CONTENTS.md` — this map

@@ -10,6 +10,10 @@ original production have been replaced with fictional examples and
 generic templates (see `SANITIZATION-LOG.md`). Adapt it to your own
 show; the machinery is the point.
 
+![How the kit works](podcast-kit-flow.png)
+
+*The whole flow at a glance: the operator loop, one turn in the room, casting, and the audio chain.*
+
 ## The idea in one paragraph
 
 Every rough spot in the manual version of this pipeline traced back to
