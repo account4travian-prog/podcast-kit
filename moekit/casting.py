@@ -3,6 +3,11 @@
   cast-brief DIR  -> prompt for the guest agent (podcast-mic, baseline + range,
                      quick + weighty reference lines)
   cast-submit DIR -> parses + validates the reply, writes casting.json
+  cast-design DIR -> ALPHA (in development): generate the candidates inside the
+                     kit - Fish voice-design from the accepted INSTRUCTION, one
+                     fast-trained model per candidate, quick + slow renders.
+                     Needs FISH_API_KEY. Until it leaves alpha, verify every
+                     batch by ear and with cast-check.
   cast-check DIR  -> measures candidate audio against the production gates:
        cand-N.wav         the voice-design sample for candidate N
        cand-N-quick.wav   candidate N reading QUICK_LINE under [quick, light, offhand]
@@ -75,11 +80,96 @@ def submit(d):
     c.update({"instruction": f["INSTRUCTION"], "quick_line": f["QUICK_LINE"], "weighty_line": f["WEIGHTY_LINE"],
               "accepted": now()})
     save_json(os.path.join(d, "casting.json"), c)
-    print("ACCEPTED. Now generate 4-5 voice-design candidates from INSTRUCTION, using QUICK_LINE + WEIGHTY_LINE "
-          "as the reference text. Save each as cand-N.wav. For each candidate, render QUICK_LINE with "
+    print("ACCEPTED. Next, generate the candidates. ALPHA route (inside the kit, needs FISH_API_KEY): "
+          f"python moe.py cast-design \"{d}\" - it designs from INSTRUCTION, trains one model per candidate "
+          "and renders the quick/slow lines. Manual route: generate 4-5 voice-design candidates externally, "
+          "save each as cand-N.wav, train one model per candidate (model-cand-N.json), render QUICK_LINE with "
           "[quick, light, offhand] -> cand-N-quick.wav and WEIGHTY_LINE with [slow, low, every word placed] "
-          f"-> cand-N-slow.wav. Then: python moe.py cast-check \"{d}\"")
+          f"-> cand-N-slow.wav. Either way, finish with: python moe.py cast-check \"{d}\"")
 
+
+FISH_ROOT = os.environ.get("FISH_API_ROOT", "https://api.fish.audio")
+
+
+def design(d, n=4, reference="quick"):
+    """ALPHA - in development. Generate voice candidates without leaving the kit:
+    voice-design from the accepted INSTRUCTION (reference_text = QUICK_LINE by
+    default, or WEIGHTY_LINE with reference="weighty"; the API caps it at 150
+    chars), one fast-trained private model per candidate (model-cand-N.json),
+    then the quick/slow renders cast-check measures. Numbering continues after
+    the highest existing candidate, so a re-run adds a fresh batch. Needs
+    FISH_API_KEY in the environment (never in a file)."""
+    import base64
+
+    import requests
+
+    c = json.load(open(os.path.join(d, "casting.json")))
+    if "accepted" not in c:
+        raise SystemExit("no accepted brief in casting.json - run cast-submit first")
+    ref_key = "quick_line" if reference == "quick" else "weighty_line"
+    ref_text = c[ref_key]
+    if len(ref_text) > 150:
+        raise SystemExit(f"{ref_key} is {len(ref_text)} chars; the voice-design API caps reference_text at 150. "
+                         "Use --reference with the shorter line, or re-brief with a shorter line.")
+    key = os.environ.get("FISH_API_KEY")
+    if not key:
+        raise SystemExit("FISH_API_KEY is not set. Export the key for this process (environment only, never in a file).")
+    auth = {"Authorization": f"Bearer {key}"}
+    existing = []
+    for p in glob.glob(os.path.join(d, "cand-*.wav")):
+        m = re.match(r"cand-(\d+)\.wav$", os.path.basename(p))
+        if m:
+            existing.append(int(m.group(1)))
+    start = (max(existing) + 1) if existing else 0
+    print("ALPHA FEATURE: cast-design is in alpha development. It calls the Fish voice-design and")
+    print("model APIs directly - verify every batch by ear and with cast-check before trusting it.")
+    r = requests.post(FISH_ROOT + "/v1/voice-design",
+                      headers={**auth, "model": "voice-design-1", "Content-Type": "application/json"},
+                      json={"instruction": c["instruction"], "reference_text": ref_text, "language": "en", "n": n},
+                      timeout=300)
+    if r.status_code != 200:
+        raise SystemExit(f"voice-design failed: HTTP {r.status_code}: {r.text[:300]}")
+    cands = r.json().get("candidates", [])
+    if not cands:
+        raise SystemExit("voice-design returned no candidates")
+    done = []
+    for i, cand in enumerate(cands):
+        k = start + i
+        wav = os.path.join(d, f"cand-{k}.wav")
+        with open(wav, "wb") as fh:
+            fh.write(base64.b64decode(cand["audio_base64"]))
+        title = f"{c['name']} cand-{k}"
+        with open(wav, "rb") as fh:
+            audio = fh.read()
+        mr = requests.post(FISH_ROOT + "/model", headers=auth,
+                           data={"type": "tts", "title": title, "train_mode": "fast",
+                                 "visibility": "private", "texts": ref_text},
+                           files={"voices": (os.path.basename(wav), audio, "audio/wav")}, timeout=300)
+        if mr.status_code not in (200, 201):
+            raise SystemExit(f"model training failed for cand-{k}: HTTP {mr.status_code}: {mr.text[:300]} "
+                             f"(cand-{k}.wav is saved; a re-run continues at the next free index)")
+        payload = mr.json()
+        mid = payload.get("id") or payload.get("_id")
+        save_json(os.path.join(d, f"model-cand-{k}.json"),
+                  {"id": mid, "title": title, "state": payload.get("state")})
+        for tag, line, direction in (("quick", c["quick_line"], "[quick, light, offhand]"),
+                                     ("slow", c["weighty_line"], "[slow, low, every word placed]")):
+            tr = requests.post(FISH_ROOT + "/v1/tts",
+                               headers={**auth, "model": "drama-3", "Content-Type": "application/json"},
+                               json={"text": f"{direction} {line}", "reference_id": mid, "format": "wav",
+                                     "sample_rate": 44100, "temperature": 0.8, "top_p": 0.8}, timeout=300)
+            if tr.status_code != 200:
+                raise SystemExit(f"tts render failed for cand-{k}-{tag}: HTTP {tr.status_code}: {tr.text[:300]}")
+            with open(os.path.join(d, f"cand-{k}-{tag}.wav"), "wb") as fh:
+                fh.write(tr.content)
+        done.append(k)
+        print(f"cand-{k}: model {mid} - quick + slow renders written")
+    rec = c.get("design") or []
+    rec.append({"when": now(), "tool": "cast-design (ALPHA)", "n": len(done),
+                "reference": ref_key, "candidates": done})
+    c["design"] = rec
+    save_json(os.path.join(d, "casting.json"), c)
+    print(f"\n{len(done)} candidate(s) ready: {done}. Next: python moe.py cast-check \"{d}\"")
 
 def spectrum(x, sr=44100):
     n = 4096

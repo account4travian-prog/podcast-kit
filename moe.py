@@ -38,6 +38,7 @@ Other commands:
   parallel ROOM --candidates N   N fresh agents draft each turn at once; the first that passes the checks is used
   retag ROOM           performance-only pass: each speaker re-marks their own turns, words fixed
   cast-brief DIR --name N --full-name "F N" --dossier FILE    guest authors their voice instruction
+  cast-design DIR      ALPHA (in development): generate voice candidates inside the kit (needs FISH_API_KEY)
   cast-check DIR       measure voice candidates (bandwidth + directability gates)
   probe ROOM|room.json  cheap Fish preflight: key, drama-3, every voice, one two-speaker scene
   episode EP.json      join mixed rooms/segments into an episode, chapters, master
@@ -212,6 +213,11 @@ def cmd_cast_submit(a):
     casting.submit(a.dir)
 
 
+def cmd_cast_design(a):
+    from moekit import casting
+    casting.design(a.dir, a.n, a.reference)
+
+
 def cmd_cast_check(a):
     from moekit import casting
     casting.check(a.dir, a.compare)
@@ -315,6 +321,8 @@ def main():
     s = sub.add_parser("cast-brief"); s.add_argument("dir"); s.add_argument("--name", required=True)
     s.add_argument("--full-name", required=True); s.add_argument("--dossier", required=True); s.set_defaults(fn=cmd_cast_brief)
     s = sub.add_parser("cast-submit"); s.add_argument("dir"); s.set_defaults(fn=cmd_cast_submit)
+    s = sub.add_parser("cast-design"); s.add_argument("dir"); s.add_argument("--n", type=int, default=4, choices=[1, 2, 3, 4])
+    s.add_argument("--reference", choices=["quick", "weighty"], default="quick"); s.set_defaults(fn=cmd_cast_design)
     s = sub.add_parser("cast-check"); s.add_argument("dir"); s.add_argument("--compare", help="a wav/mp3 of another cast voice")
     s.set_defaults(fn=cmd_cast_check)
     s = sub.add_parser("doctor"); s.add_argument("--accept", action="store_true")

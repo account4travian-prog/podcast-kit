@@ -112,3 +112,6 @@ relative to the room file.
 
 ## Addendum 4 (2026-11-09, diagram)
 - Added `podcast-kit-flow.png` (a workflow diagram of the kit) at the owner's request and embedded it in the README. File count is now 41.
+
+## Addendum 5 (2026-11-09, cast-design)
+- Added `cast-design` (owner-directed): voice-candidate generation inside the kit - design from the accepted brief, one trained model per candidate, quick/slow gate renders - closing the gap the README's testing note recorded. Marked ALPHA in the help text, the runbook, the README and the command's own banner; live-tested end to end once before posting (design -> train -> render -> cast-check).

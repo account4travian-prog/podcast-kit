@@ -253,7 +253,11 @@ python moe.py cast-brief CAST_DIR --name Alex --full-name "Alex Example" --dossi
 3. Generate **4–5** Fish voice-design candidates from INSTRUCTION, using
    QUICK_LINE + WEIGHTY_LINE as the reference text. Save each as
    `cand-N.wav`.
-4. For each candidate, render:
+   **ALPHA route:** `python moe.py cast-design CAST_DIR` does steps 3–4
+   inside the kit (voice-design, one fast-trained model per candidate, and
+   the quick/slow renders; needs FISH_API_KEY). It is in alpha development:
+   verify every batch by ear and with cast-check before trusting it.
+4. For each candidate, render (by hand, or via cast-design above):
    - QUICK_LINE as `[quick, light, offhand] …` → `cand-N-quick.wav`;
    - WEIGHTY_LINE as `[slow, low, every word placed] …` → `cand-N-slow.wav`.
 5. Run:

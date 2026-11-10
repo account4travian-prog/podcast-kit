@@ -79,10 +79,14 @@ steps are refused.
   with most transitions going guest to guest.
 
 **Not tested in the original:** the `--tts-cmd` connector path (use
-the HTTP path); voice *design* (candidate generation), which was the
-operator's connector rather than the kit; and operation by the
-sanitized copy's new example content - the examples are illustrative
-fixtures, not production material.
+the HTTP path), and operation by the sanitized copy's new example
+content - the examples are illustrative fixtures, not production
+material. Voice *design* (candidate generation) was originally done
+outside the kit through the operator's connector; it has since been
+added as `cast-design`, marked **alpha** - it designs candidates,
+trains one model per candidate and renders the gate lines, and has
+completed one live end-to-end run. Treat its batches as unverified
+until `cast-check` and a human ear have passed them.
 
 In the panel example, two of the four voices are deliberately left unset (`null`)
 in the room config: the kit refuses to run a room until every voice is cast, so
