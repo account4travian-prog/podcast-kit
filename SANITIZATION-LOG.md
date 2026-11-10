@@ -100,38 +100,6 @@ example one-on-one room passes config validation and creation in
 place (`moe.py new`), with persona and template paths resolving
 relative to the room file.
 
-## NEEDS-REVIEW (owner should eyeball)
-
-1. The legacy standalone render script's default host speaker name
-   was changed to "Host" (a string default). Behaviour is otherwise
-   untouched; pick a different placeholder if you prefer.
-2. The `doctor` command retains a generic entry-ID parsing
-   convention (letter-dash-numbered entries in a producer-notes
-   file) inherited from the original governance format. The shipped
-   template uses plain numbered-ruling headings, so that branch is
-   inert. Decide whether to keep the convention for your own notes.
-3. `SOURCES.json` now pins the shipped templates. If you restore
-   real governing documents beside the kit, re-pin with
-   `moe.py doctor --docs <dir> --accept`.
-4. The example personas and occasions are invented fixtures written
-   for this copy (three guests, two fictional studies). Confirm you
-   are happy publishing even fictional example content under your
-   account.
-5. The panel example intentionally leaves two voices unset (null) to
-   demonstrate the casting gate, mirroring the original fixture.
-6. The internal live-test report was dropped rather than rewritten;
-   the README testing summary is new prose - check it says nothing
-   you disagree with.
-7. No standalone unit-test code existed in the original `tests/`
-   folder (only live-run outputs), so no test code ships. If you
-   want public tests, they would have to be written fresh.
-8. The kit still names its third-party speech service and model
-   family by their public product names - a real dependency of the
-   code, kept deliberately.
-9. Internal production dates were scrubbed from the README and
-   runbook; the copy is undated and unversioned. Add a version line
-   if you want one before publishing.
-
 ## Addendum (2026-11-09, owner ruling)
 - License set by owner's direction ("whatever license makes sense for a tool like this"): MIT License, copyright holder "account4travian" (the publishing account — the only place that identifier appears in the tree, by owner's ruling). README license line updated to match.
 
