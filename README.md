@@ -84,6 +84,11 @@ operator's connector rather than the kit; and operation by the
 sanitized copy's new example content - the examples are illustrative
 fixtures, not production material.
 
+In the panel example, two of the four voices are deliberately left unset (`null`)
+in the room config: the kit refuses to run a room until every voice is cast, so
+the example doubles as a demonstration of the casting gate. Cast those voices
+(or point the config at voices already cast) before starting that room.
+
 ## Quick start
 
 ```
