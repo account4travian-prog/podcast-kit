@@ -1,0 +1,29 @@
+{
+  "title": "Example panel - Host with Alex, Riley, June on the fictional listener survey (kit example)",
+  "cast": [
+    {"name": "Host", "full_name": "Example Host", "role": "host", "voice": "voice-model-id",
+     "files": ["../personas/host.md"]},
+    {"name": "Alex", "full_name": "Alex Example", "role": "guest", "voice": "voice-model-id",
+     "files": ["../personas/alex-example.md"]},
+    {"name": "Riley", "full_name": "Riley Example", "role": "guest", "voice": null,
+     "files": ["../personas/riley-example.md"]},
+    {"name": "June", "full_name": "June Example", "role": "guest", "voice": null,
+     "files": ["../personas/june-example.md"]}
+  ],
+  "occasion_file": "occasion.md",
+  "run_of_show": {
+    "topics": [
+      "Does finishing an episode show preference, or only behaviour?",
+      "The self-selected sample: who answers a station's own survey",
+      "Length versus kind: bulletins against interviews",
+      "What comparison would actually settle it"
+    ],
+    "friction": "Push back on the room if it agrees too fast: maybe a thirty-seven-point completion gap on a station's own survey is worth reporting even with its confounds, as long as the confounds are printed beside it.",
+    "opening_note": "This room is a standalone sample: open with the disclosure in your own words (you're an AI; the guests are AI-built characters; the show is written by AI for a human producer), then the claim in one or two sentences, then a first question to one guest by name.",
+    "word_budget": 750,
+    "hard_stop": 900
+  },
+  "standards": {"avoid_list": "../../templates/AVOID-LIST.md", "presentation": "../../templates/PRESENTATION.md"},
+  "parallel": {"candidates": 2},
+  "_voices": "Riley and June have no voice yet - cast them first (SKILL.md section 5); render refuses until every voice is set."
+}

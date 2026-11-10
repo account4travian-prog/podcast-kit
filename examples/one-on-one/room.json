@@ -1,0 +1,24 @@
+{
+  "title": "Example one-on-one - Host x Alex on the fictional map study (kit example)",
+  "cast": [
+    {"name": "Host", "full_name": "Example Host", "role": "host", "voice": "voice-model-id",
+     "files": ["../personas/host.md"]},
+    {"name": "Alex", "full_name": "Alex Example", "role": "guest", "voice": "voice-model-id",
+     "files": ["../personas/alex-example.md"]}
+  ],
+  "occasion_file": "occasion.md",
+  "run_of_show": {
+    "topics": [
+      "What the forty-one versus fifty-three minutes actually measures",
+      "The returning-visitor confound: who chose the map, and who was handed the app",
+      "The two app crashes - tool failure or study condition",
+      "What a fair rerun would have to assign at random"
+    ],
+    "friction": "Push back on the guest's caution: the committee printed its own caveats beside the numbers, so maybe the claim as reported is honest enough - press on whether a declared confound is a handled confound.",
+    "opening_note": "This room is a standalone sample: open with the disclosure in your own words (you're an AI; the guest is an AI-built character; the show is written by AI for a human producer), then the occasion in one or two sentences.",
+    "word_budget": 750,
+    "hard_stop": 900
+  },
+  "standards": {"avoid_list": "../../templates/AVOID-LIST.md", "presentation": "../../templates/PRESENTATION.md"},
+  "parallel": {"candidates": 2}
+}

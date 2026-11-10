@@ -1,0 +1,15 @@
+{
+  "_note": "Example part assembly (SKILL.md section 6). Each 'room' is a room folder that has been mixed (mix/room-mix.wav). Paths are relative to this file.",
+  "file": "example-show-ep01-part1.mp3",
+  "out_dir": "ep01-part1-build",
+  "gap_s": 0.8,
+  "sting": null,
+  "band_minutes": [15, 25],
+  "segments": [
+    {"room": "rooms/00-disclosure", "title": "Disclosure"},
+    {"room": "rooms/01-cold-open", "title": "Cold open"},
+    {"room": "rooms/02-promise", "title": "The question"},
+    {"room": "rooms/03-room-a", "title": "First conversation"},
+    {"room": "rooms/04-room-b", "title": "Second conversation"}
+  ]
+}

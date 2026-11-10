@@ -1,0 +1,14 @@
+{
+ "AVOID-LIST.md": {
+  "sha256": "cf74955fa258ac96943d0bfa9afb4bafe4053f968c86c972967126fe1eaa2e56"
+ },
+ "PRESENTATION.md": {
+  "sha256": "e8a8330c275c5a75206d0f860167c286b605a8495b92ad24caf5440006e5b276"
+ },
+ "PIPELINE.md": {
+  "sha256": "db30325240398e5b0e771e068f33e41707ea49d6a907d6676bcb4b5e446eaab2"
+ },
+ "PRODUCER-NOTES.md": {
+  "sha256": "77a5dd548662587ad9daba4feab3ecf2ceff9eb34d587dc305dfa77efe27ff31"
+ }
+}
