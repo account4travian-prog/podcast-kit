@@ -138,3 +138,6 @@ relative to the room file.
 ## Addendum 2 (2026-11-09, pre-posting pass)
 - Removed `moekit/__pycache__/` (bytecode created by a local doctor run; .pyc files embed local source paths — caught by a repeat denylist sweep, zero hits in any text file before and after).
 - Added `.gitignore` (Python bytecode and venvs) and `CONTENTS.md` (a map of the tree) for posting. File count is now 40.
+
+## Addendum 3 (2026-11-09, rename)
+- Owner's direction: the repository and display name changed from "moe-kit" to "podcast-kit" — MoE was the internal project name, and an unrelated AI-themed podcast already uses the show's name. Only display/title strings changed; the program's filenames (`moe.py`, the `moekit/` package) are unchanged.

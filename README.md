@@ -1,4 +1,4 @@
-# moe-kit: a conversation-room pipeline, as code
+# podcast-kit: a conversation-room pipeline, as code
 
 License: MIT (see LICENSE)
 

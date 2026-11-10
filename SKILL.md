@@ -1,6 +1,6 @@
 ---
 name: moe-room-production
-description: Produce conversation audio with moe-kit — prepare a room, run it turn by turn with fresh agents (the kit does all plumbing, checks and counting), render with Fish Drama 3 in scene mode, mix, report and deliver; also the performance-only re-tag pass, voice casting gates, and assembling rooms into an episode part.
+description: Produce conversation audio with podcast-kit — prepare a room, run it turn by turn with fresh agents (the kit does all plumbing, checks and counting), render with Fish Drama 3 in scene mode, mix, report and deliver; also the performance-only re-tag pass, voice casting gates, and assembling rooms into an episode part.
 ---
 
 # Room production with moe-kit
